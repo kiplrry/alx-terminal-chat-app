@@ -5,7 +5,6 @@ from prompt_toolkit.shortcuts import input_dialog, radiolist_dialog, button_dial
 import time
 from print import style
 from prompt_toolkit.shortcuts import ProgressBar, clear
-from completer import Completer1
 from prompt_toolkit.key_binding import KeyBindings
 from prompt_toolkit.buffer import Buffer
 
