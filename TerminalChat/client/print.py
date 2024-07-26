@@ -37,11 +37,10 @@ class PrintHandler():
         print(HTML(f'<success>{message}</success>'), style=self.style)
 
     def recv(self, message,  username: str, room=None):
-        username = username.upper()
         if room:
             print(HTML(f'<user>{username}</user>@<room>{room} >></room> {message}'), style=self.style)
         else:
-            print(HTML(f'<user><>{username} >></user> {message}'), style=self.style)
+            print(HTML(f'<user>{username} >></user> {message}'), style=self.style)
 
     def send(self, message, room=None):
         if room:

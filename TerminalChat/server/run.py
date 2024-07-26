@@ -1,5 +1,5 @@
 from app import sio, socketio
-from app.views.user_view import Root
+from app.user_view import Root
 
 
 # register views
@@ -11,5 +11,6 @@ sio.register_namespace(Root('/'))
 @sio.event
 def error(e):
     sio.emit('err', e)
+
 
 app = socketio.WSGIApp(sio)

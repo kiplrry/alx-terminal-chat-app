@@ -1,18 +1,12 @@
-from prompt_toolkit import prompt, PromptSession, patch_stdout, HTML
-from prompt_toolkit.completion import WordCompleter, Completer, CompleteEvent
-from main import connect, sio, Handlers, online_users, SessionHandler, load_chat
+from prompt_toolkit import PromptSession, patch_stdout, HTML
+from prompt_toolkit.completion import WordCompleter
+from main import connect, sio, SessionHandler
+from handlers import Handlers
 from prompt_toolkit.shortcuts import input_dialog, radiolist_dialog, button_dialog
 import time
 from print import style
 from prompt_toolkit.shortcuts import ProgressBar, clear
-from prompt_toolkit.key_binding import KeyBindings
-from prompt_toolkit.buffer import Buffer
 
-def accept_handler(buff):
-    buffer.reset()
-
-
-buffer = Buffer(accept_handler=accept_handler)
 
 SESSION = SessionHandler()
 def intro():
@@ -31,16 +25,9 @@ def chat_session():
     global SESSION
     sess = PromptSession(style=style)
     while True:
-        # room_or_chat = radiolist_dialog(
-        #     title='Chat Or Room',
-        #     text='Do you want to chat with a user or join a room',
-        #     values=[
-        #         ('chat', 'Chat'),
-        #         ('room', 'Room')
-        #     ]).run()
-
+        set_session()
         if SESSION.current == 'chat':
-            users = SESSION.online()
+            users = SESSION.online
             if users:
                 friend = radiolist_dialog(
                         title='Chat with who?',
@@ -63,7 +50,7 @@ def chat_session():
                         for i in pb(range(80)):
                             time.sleep(.01)
                     clear()
-                    print(f'{users=}\n {online_users()=}')
+                    print(f'{users=}\n {SESSION.online=}')
                     continue
                 else:
                     exit()
@@ -129,39 +116,17 @@ def main():
         text='whats your pass',
         password=True).run()
     handlers = Handlers(sio)
+    SESSION.username = name
     if ans == 'register':
-        handlers.register(name, password)
-    if ans == 'login':
-        handlers.login(name, password)
-    logged_in = False
-    for _ in range(3):
-        if handlers.is_logged_in:
-            logged_in = True
-            break
-        time.sleep(1)
-    if not logged_in:
+        res = handlers.register(name, password)
+    elif ans == 'login':
+        res = handlers.login(name, password)
+    print(f'{res=}')
+    if not res:
         print('not logged in')
         exit(9)
-    SESSION.username = name
-    # room_or_chat = radiolist_dialog(
-    #     title='Chat Or Room',
-    #     text='Do you want to chat with a user or join a room',
-    #     values=[
-    #         ('chat', 'Chat'),
-    #         ('room', 'Room')
-    #     ]).run()
-    SESSION.current = 'room'
-    # if room_or_chat == 'chat':
-    #     global SESSION
-    #     SESSION = 'chat'
-    #     name = input_dialog(
-    #         title='Chat',
-    #         text='Enter username ').run()
-    #     handlers.chat(name)
-    #     global FRIEND
-    #     FRIEND = name
 
-def get_session():
+def set_session():
     global SESSION
     room_or_chat = radiolist_dialog(
         title='Chat Or Room',
@@ -171,6 +136,7 @@ def get_session():
             ('room', 'Room')
         ]).run()
     SESSION.current = room_or_chat
+    return SESSION
 
 
 
