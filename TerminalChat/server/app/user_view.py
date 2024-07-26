@@ -173,8 +173,13 @@ class Root(Namespace):
         print(f'{messages=}')
         messages = self.message_h.parse_chat_messages(messages)
         print(f'parsed{messages=}')
-        print(f'all rooms {all_rooms(self)}')
+        # print(f'all rooms {all_rooms(self)}')
         self.call('load_room', messages, sid=sid)
+    
+    def  on_all_rooms(self, sid):
+        rooms = all_rooms()
+        print(f'{rooms=}')
+        return rooms
 
 
 def user_online(username):
@@ -218,6 +223,7 @@ def get_room(roomname) -> Room:
         room = Room(name=roomname)
     return room
 
-def all_rooms(sio: Room):
-    return list(socketio.server.manager.rooms['/'].keys())
-    
+def all_rooms() -> list[str]:
+    rooms: list[Room] = Room.all()
+    rooms = [room.name for room in rooms]
+    return rooms
