@@ -1,55 +1,53 @@
-🖥️ Terminal Chat App
+# 🖥️ Terminal Chat App
 
-📜 Overview
+## 📜 Overview
 
 The Terminal Chat App is a command-line based chat application built using Python. Leveraging Prompt Toolkit, Socket.IO, and SQLAlchemy, this app allows users to connect, join chat rooms, and exchange messages in real-time.
-✨ Features
 
-    🔐 User Authentication: Register and log in securely.
-    💬 Chat Rooms: Create and join multiple chat rooms.
-    ⚡ Real-Time Messaging: Instant messaging between users.
-    🖥️ Command-Line Interface: User-friendly CLI using Prompt Toolkit.
-    🗄️ Persistent Storage: Data stored with SQLAlchemy and MySQL.
+## ✨ Features
 
-📋 Requirements
+- 🔐 **User Authentication**: Register and log in securely.
+- 💬 **Chat Rooms**: Create and join multiple chat rooms.
+- ⚡ **Real-Time Messaging**: Instant messaging between users.
+- 🖥️ **Command-Line Interface**: User-friendly CLI using Prompt Toolkit.
+- 🗄️ **Persistent Storage**: Data stored with SQLAlchemy and MySQL.
 
-    Python 3.10+
-    MySQL
-    Python libraries (install via pip):
-        prompt_toolkit
-        sqlalchemy
-        socketio
-        eventlet
-        MySQLdb
+## 📋 Requirements
 
-🛠️ Installation
+- Python 3.10+
+- MySQL
+- Python libraries (install via pip):
+  - `prompt_toolkit`
+  - `sqlalchemy`
+  - `socketio`
+  - `eventlet`
+  - `MySQLdb`
 
-    Clone the repository
+## 🛠️ Installation
 
-    bash
+1. **Clone the repository**
 
-git clone https://github.com/yourusername/terminal-chat-app.git
-cd terminal-chat-app
+    ```bash
+    git clone https://github.com/kiplrry/alx-terminal-chat-app.git
+    cd terminal-chat-app
+    ```
 
-Install dependencies
+2. **Install dependencies**
 
-bash
+    ```bash
+    pip install -r requirements.txt
+    ```
 
-pip install -r requirements.txt
 
-Configure the database
+3. **Run the server**
 
-    Create a MySQL database and update the database connection settings in app/database.py.
+    ```bash
+    gunicorn -k eventlet --reload --threads 60 run:app
+    ```
+4. **Run the Client**
 
-Initialize the database
+    Navigate to the client directory
 
-python
-
-from app.database import Base, engine
-Base.metadata.create_all(engine)
-
-Run the server
-
-bash
-
-gunicorn -k eventlet --reload --threads 60 run:app
+    ```bash
+    python3 main.py
+    ```
